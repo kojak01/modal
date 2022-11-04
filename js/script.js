@@ -3,7 +3,7 @@ const actionBtn = document.querySelector('.action-btn');
 const modal = (body) => {
   return `
     <div class="modal">
-        <p class="modal-title">
+        <p class="modal-title ${body.type}">
             <i class="modal-title-icon" data-feather="info"></i>
             ${body.title}
         </p>
@@ -29,6 +29,7 @@ const addToBasket = () => {
   console.log('dodano do koszyka');
 
   createModal({
+    type: 'success',
     title: 'lorem ipsum dolor title vla blala laslal llas',
     description: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Qui voluptatibus error, ullam ab quos iusto minus! Natus, optio quasi magni fugiat neque atque error unde.',  
     accept_btn: 'Zaakceptuj',
