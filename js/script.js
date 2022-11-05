@@ -1,8 +1,7 @@
 const actionBtn = document.querySelector('.action-btn');
 
 const modal = (body = {}) => {
-  return `
-    <div class="modal">
+  return `<div tabindex="10" class="modal">
         <p class="modal-title ${body.type || ''}">
             <i class="modal-title-icon" data-feather="${body.modal_icon || 'info'}"></i>
             ${body.title || 'Czy jesteś pewny?'}
@@ -17,26 +16,44 @@ const modal = (body = {}) => {
         <button class="modal-close-icon"><i data-feather="x"></i></button>
     </div>`;
 };
-const createModal = (body) => {
+const createModal = (value) => {
   const modalContainer = document.createElement('div');
   modalContainer.className = 'modal-container';
-  modalContainer.innerHTML = modal(body);
+  modalContainer.innerHTML = modal(value);
   document.body.appendChild(modalContainer);
 
   const closeIcon = document.querySelector('.modal-close-icon');
   closeIcon.addEventListener('click', () => {
     const modal = document.querySelector('.modal-container');
     modal.remove();
+    document.body.style.overflow = 'hidden';
   });
 
   const closeButtons = document.querySelectorAll('.modal-action-btn');
-  closeButtons.forEach(btn => btn.addEventListener('click', () => {
+  closeButtons.forEach((btn) => btn.addEventListener('click', () => {
     const modal = document.querySelector('.modal-container');
     modal.remove();
+    document.body.style.overflow = 'auto';
   }));
-
+  
+  const modalActive = document.querySelector(".modal");
+  modalActive.focus();
+  modalActive.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      const modal = document.querySelector(".modal-container");
+      modal.remove();
+      document.body.style.overflow = "auto";
+    }
+  });
+  const modalActiveContainer = document.querySelector(".modal-container");
+  modalActiveContainer.addEventListener("click", (e) => {
+    if (e.target.classList.contains("modal-container")) {
+      e.target.remove();
+    }
+  });
 
   feather.replace();
+  document.body.style.overflow = 'hidden'; // If you want to use the iframe's scrollbar and not the parent's use this:
 };
 
 const addToBasket = () => {
@@ -57,6 +74,8 @@ actionBtn.addEventListener('click', addToBasket);
 const actionTwoBtn = document.querySelector('.action-two-btn');
 actionTwoBtn.addEventListener('click', () => {
   createModal({
+    type: 'danger',
+    modal_icon: 'alert-octagon',
     title: 'Drugi tekst modala',
     description: 'lapapa ldsald kdlk saldksaldksadlsak llsakds. Qui voluptatibus error, ullam ab quos iusto minus! Natus, optio quasi magni fugiat neque atque error unde.',  
     accept_btn: 'OK',
