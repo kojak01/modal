@@ -1,27 +1,35 @@
 const actionBtn = document.querySelector('.action-btn');
 
-const modal = (body) => {
+const modal = (body = {}) => {
   return `
     <div class="modal">
-        <p class="modal-title ${body.type}">
-            <i class="modal-title-icon" data-feather="info"></i>
-            ${body.title}
+        <p class="modal-title ${body.type || ''}">
+            <i class="modal-title-icon" data-feather="${body.modal_icon || 'info'}"></i>
+            ${body.title || 'Czy jesteś pewny?'}
         </p>
         <p class="modal-description">
-            ${body.description}
+            ${body.description || 'potwierdź swój wybór'}
         </p>
         <div class="modal-buttons">
-            <button class="modal-accept">${body.accept_btn}</button>
-            <button class="modal-decline">${body.decline_btn}</button>
+            <button class="modal-accept">${body.accept_btn || 'Tak'}</button>
+            <button class="modal-decline">${body.decline_btn || 'Nie'}</button>
         </div>
         <button class="modal-close-icon"><i data-feather="x"></i></button>
     </div>`;
 };
-const createModal = (value) => {
+const createModal = (body) => {
   const modalContainer = document.createElement('div');
   modalContainer.className = 'modal-container';
-  modalContainer.innerHTML = modal(value);
+  modalContainer.innerHTML = modal(body);
   document.body.appendChild(modalContainer);
+
+  const closeIcon = document.querySelector('.modal-close-icon');
+  closeIcon.addEventListener('click', () => {
+    const modal = document.querySelector('.modal-container');
+    modal.remove();
+  });
+
+
   feather.replace();
 };
 
@@ -29,7 +37,8 @@ const addToBasket = () => {
   console.log('dodano do koszyka');
 
   createModal({
-    type: 'success',
+    modal_icon: 'alert-triangle',
+    type: 'warning',
     title: 'lorem ipsum dolor title vla blala laslal llas',
     description: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Qui voluptatibus error, ullam ab quos iusto minus! Natus, optio quasi magni fugiat neque atque error unde.',  
     accept_btn: 'Zaakceptuj',
@@ -49,30 +58,7 @@ actionTwoBtn.addEventListener('click', () => {
   });
 } );
  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-actionBtn.addEventListener('click', addToBasket);
+const actionThreeBtn = document.querySelector('.action-three-btn');
+actionThreeBtn.addEventListener('click', () => {
+  createModal();
+});
