@@ -11,8 +11,8 @@ const modal = (body = {}) => {
             ${body.description || 'potwierdź swój wybór'}
         </p>
         <div class="modal-buttons">
-            <button class="modal-accept">${body.accept_btn || 'Tak'}</button>
-            <button class="modal-decline">${body.decline_btn || 'Nie'}</button>
+            <button class="modal-accept modal-action-btn">${body.accept_btn || 'Tak'}</button>
+            <button class="modal-decline modal-action-btn">${body.decline_btn || 'Nie'}</button>
         </div>
         <button class="modal-close-icon"><i data-feather="x"></i></button>
     </div>`;
@@ -28,6 +28,12 @@ const createModal = (body) => {
     const modal = document.querySelector('.modal-container');
     modal.remove();
   });
+
+  const closeButtons = document.querySelectorAll('.modal-action-btn');
+  closeButtons.forEach(btn => btn.addEventListener('click', () => {
+    const modal = document.querySelector('.modal-container');
+    modal.remove();
+  }));
 
 
   feather.replace();
